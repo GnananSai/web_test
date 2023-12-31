@@ -27,5 +27,9 @@ def get_pass(user):
     for row in result:
       dumb.append(row._mapping)
     return (dumb[0].get('pw'))
+
+def register(user, pw, email):
+  with engine.connect() as conn:
+    conn.execute(text("INSERT INTO login_info (username, pw, email) VALUES (:u, :p, :e)"),dict(u=user, p=pw, e=email))  
+    conn.commit()
     
-get_pass('admin')  

@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template, request
-from database import load_login_info, get_pass
+from database import load_login_info, get_pass, register
 
 app = Flask(__name__)
 
@@ -22,6 +22,20 @@ def login():
   else:
     print("passwords dont match")
     return render_template('fail.html')
+
+@app.route("/register", methods=['post'])
+def register_page():
+  data = request.form
+  email = data['email']
+  username = data['username']
+  password = data['password']
+  confirm = data['confirm']
+  if(confirm==password):
+    register(username, password, email)
+    return render_template('success.html')
+  else:
+    return render_template('fail.html')
+    
 
 
 if __name__ == '__main__':
